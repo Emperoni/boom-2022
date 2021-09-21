@@ -54,7 +54,7 @@
       const credentials = Realm.Credentials.anonymous();
       try {
         // Authenticate the user
-        const user = await boom.logIn(credentials);
+        const user = boom.logIn(credentials);
         // `boom.currentUser` updates to match the logged in user
         assert(user.id === boom.currentUser.id)
         return user
