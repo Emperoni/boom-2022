@@ -1,7 +1,7 @@
 exports = async function(scriptName){
   const Base64 = require("js-base64");
   const ec2 = context.services.get('connectAws').ec2("us-west-2");
-  const collection = context.services.get("mongodb-atlas").db("boom").collection("script");
+  const collection = context.services.get("mongodb-atlas").db("boom").collection("scripts");
   return collection.findOne({"name": scriptName})
   /*
   Script names are: 
@@ -15,7 +15,7 @@ exports = async function(scriptName){
         console.log(result.ami);
         console.log(result.awsZone);
         console.log(result.instanceType);
-        console.log('#!/bin/bash \r\n yum update -y');
+        console.log('#!/bin/bash \r\n yum update -y'); 
         console.log(result.securityGroups);
         var instanceId;
         // result.userData is already encoded in Base64. Base64.encode( x ) is no longer necessary.
