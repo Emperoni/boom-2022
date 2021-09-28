@@ -1,0 +1,78 @@
+
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #F5F6F7;
+        color: #494747;
+        font-family: Helvetica, sans-serif;
+      }
+      a {
+        color: #006CBC;
+      }
+      h1 {
+        font-size: 60pt;
+        font-weight: 200;
+        text-align:center;
+      }
+      h2 {
+        font-size: 24pt;
+        font-weight: 400;
+        text-align:center;
+      }
+      .content{
+        padding-top:40px;
+      }
+
+      .footer {
+        font-size: 14pt;
+        font-weight: 200;
+        text-align:center;
+      }
+
+	  .logo {
+		margin-top: 20px;
+	  }
+
+    </style>
+    <script src="https://unpkg.com/realm-web@1.2.0/dist/bundle.iife.js"></script>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Hello, Barry!</h1>
+      <h2>This is Boom.</h2>
+      <div><button id="btnDeploy">Click here precisely</button></div>
+      <div class="footer">
+        <p>FYI: questions.</p>
+
+      </div>
+    </div>
+    <script>
+      const boom = new Realm.App({ id: "boom-2022-eyjaq" });
+
+      // Create an anonymous credential
+      const credentials = Realm.Credentials.anonymous();
+      authenticateAnonymous();
+      
+      async function authenticateAnonymous() {
+        try {
+        // Authenticate the user
+        const user = await boom.logIn(credentials);
+        // `boom.currentUser` updates to match the logged in user
+        assert(user.id === boom.currentUser.id)
+        return user
+        } catch(err) {
+          console.error("Failed to log in", err);
+        }
+
+      }
+
+      document.getElementById('btnDeploy').onclick = ciao;
+
+      function ciao(){
+        console.log('ciao, amigo');
+      }
+    </script>
+
+  </body>
+</html>
