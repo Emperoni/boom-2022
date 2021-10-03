@@ -11,18 +11,12 @@ exports = async function(scriptName){
   */
   .then(result => {
       if(result){
-        console.log('inside if result.');
-        console.log(result.ami);
-        console.log(result.awsZone);
-        console.log(result.instanceType);
-        console.log('#!/bin/bash \r\n yum update -y'); 
-        console.log(result.securityGroups);
         var instanceId;
         // result.userData is already encoded in Base64. Base64.encode( x ) is no longer necessary.
         // actually, if it works here it makes no sense to store hashed. Need to separate user data from hashed user data.
         //const userData = Base64.encode('#!/bin/bash \r\n yum update -y');
-        //const userData = Base64.encode(result.userData);
-        const userData = result.userData;
+        const userData = Base64.encode(result.script);
+        //const userData = result.userData;
         console.log(userData);
         
         const risultato = ec2.RunInstances({
