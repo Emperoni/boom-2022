@@ -19,6 +19,7 @@ exports = async function(scriptName){
         console.log(result.securityGroups);
         var instanceId;
         // result.userData is already encoded in Base64. Base64.encode( x ) is no longer necessary.
+        // actually, if it works here it makes no sense to store hashed. Need to separate user data from hashed user data.
         //const userData = Base64.encode('#!/bin/bash \r\n yum update -y');
         //const userData = Base64.encode(result.userData);
         const userData = result.userData;
@@ -43,14 +44,3 @@ exports = async function(scriptName){
     .catch(err => console.error(`Failed to find document: ${err}`));
     
 };
-
-// 'awsRegion': 'us-west-2',
-        /*
-          'numToLaunch':1,
-          'ami':,
-          'instanceType': result.instanceType,
-          'securityGroups': result.securityGroups
-          
-          ,
-          "User-Data": '#!/bin/bash \r\n yum update -y'
-        */
