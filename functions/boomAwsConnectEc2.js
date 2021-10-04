@@ -3,12 +3,7 @@ exports = async function(scriptName){
   const ec2 = context.services.get('connectAws').ec2("us-west-2");
   const collection = context.services.get("mongodb-atlas").db("boom").collection("scripts");
   return collection.findOne({"name": scriptName})
-  /*
-  Script names are: 
-  1. OM Instance
-  2. MDB RS 
-  
-  */
+
   .then(result => {
       if(result){
         var instanceId;
