@@ -3,18 +3,10 @@ exports = async function(scriptName){
   const ec2 = context.services.get('connectAws').ec2("us-west-2");
   const collection = context.services.get("mongodb-atlas").db("boom").collection("scripts");
   return collection.findOne({"name": scriptName})
-  /*
-  Script names are: 
-  1. OM Instance
-  2. MDB RS 
-  
-  */
+
   .then(result => {
       if(result){
         var instanceId;
-        // result.userData is already encoded in Base64. Base64.encode( x ) is no longer necessary.
-        // actually, if it works here it makes no sense to store hashed. Need to separate user data from hashed user data.
-        //const userData = Base64.encode('#!/bin/bash \r\n yum update -y');
         const userData = Base64.encode(result.script);
         //const userData = result.userData;
         console.log(userData);
