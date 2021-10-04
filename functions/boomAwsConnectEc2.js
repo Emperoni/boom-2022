@@ -2,6 +2,7 @@ exports = async function(scriptName){
   const Base64 = require("js-base64");
   const ec2 = context.services.get('connectAws').ec2("us-west-2");
   const collection = context.services.get("mongodb-atlas").db("boom").collection("scripts");
+  const instancesCollection = context.services.get("mongodb-atlas").db("boom").collection("instances");
   return collection.findOne({"name": scriptName})
 
   .then(result => {
@@ -22,6 +23,7 @@ exports = async function(scriptName){
           //"TagSpecification": result.tagSpecification,
           "BlockDeviceMappings": result.blockDeviceMappings 
         })
+        instancesCollection.insertOne(risultato);
         return risultato;
       } else {
         return 'did not get a result.';
