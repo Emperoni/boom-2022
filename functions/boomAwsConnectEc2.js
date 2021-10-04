@@ -23,8 +23,8 @@ exports = async function(scriptName){
           //"TagSpecification": result.tagSpecification,
           "BlockDeviceMappings": result.blockDeviceMappings 
         })
-        instancesCollection.insertOne(risultato);
-        return risultato;
+        
+        return instancesCollection.insertOne(risultato);
       } else {
         return 'did not get a result.';
       }
