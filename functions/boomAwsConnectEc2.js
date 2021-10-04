@@ -30,6 +30,7 @@ exports = async function(scriptName){
   })
   .then(risultato => {
     collectionInstance.insertOne(risultato);
+    return risultato;
   })
   .catch(err => console.error(`Failed to find document: ${err}`));
     
