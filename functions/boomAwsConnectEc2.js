@@ -9,9 +9,7 @@ exports = async function(scriptName){
     if(result){
       var instanceId;
       const userData = Base64.encode(result.script);
-      //const userData = result.userData;
-      console.log(userData);
-      
+
       const risultato = ec2.RunInstances({
         "ImageId": result.ami,
         "MaxCount": 1,
