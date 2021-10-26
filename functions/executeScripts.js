@@ -7,6 +7,7 @@ exports = async function(solutionName){
 
   .then(result => {
     if(result){
+      console.log(result);
       if(result.scripts && result.scripts.length > 0) {
         var instanceId, userData;
         try {
