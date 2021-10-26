@@ -1,4 +1,5 @@
 exports = async function(solutionName){
+  console.log(solutionName);
   const Base64 = require("js-base64");
   const ec2 = context.services.get('connectAws').ec2("us-west-2");
   const collection = context.services.get("mongodb-atlas").db("boom").collection("solutions");
