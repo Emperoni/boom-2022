@@ -2,5 +2,9 @@
     {
         "name": "boomAwsConnectEc2",
         "private": false
+    },
+    {
+        "name": "executeScripts",
+        "private": false
     }
 ]
