@@ -57,8 +57,9 @@
         try {
           // Authenticate the user
           const user = await boom.logIn(credentials);
+          console.log(user);
           // `App.currentUser` updates to match the logged in user
-          assert(user.id === boom.currentUser.id)
+          // assert(user.id === boom.currentUser.id)
           return user
         } catch(err) {
           console.error("Failed to log in", err);
