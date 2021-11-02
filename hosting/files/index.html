@@ -57,7 +57,6 @@
         try {
           // Authenticate the user
           const user = await boom.logIn(credentials);
-          console.log(user);
           // `App.currentUser` updates to match the logged in user
           // assert(user.id === boom.currentUser.id)
           return user
@@ -67,17 +66,18 @@
       }
       loginEmailPassword('daniele.graziani@mongodb.com', 'Mpr$2bobb').then(user => {
         console.log("Successfully logged in!", user)
+        document.getElementById('btnDeploy').onclick = ciao;
+
+        async function ciao(){
+          const functionName = "executeScripts";
+          const args = ["Nationwide sharded cluster"];
+          const result = await user.callFunction(functionName, args);
+          console.log(result);
+        }
       })
       // 61812a4dc318700cb7e3753a
 
-      document.getElementById('btnDeploy').onclick = ciao;
 
-      async function ciao(){
-        const functionName = "executeScripts";
-        const args = ["Nationwide sharded cluster"];
-        const result = await user.callFunction(functionName, args);
-        console.log(result);
-      }
     </script>
 
   </body>
