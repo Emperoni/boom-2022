@@ -46,6 +46,7 @@ exports = async function(solutionName){
       
   })
   .then(risultato => {
+    console.log(JSON.stringify(risultato));
     collectionInstance.insertOne(risultato);
     return risultato;
   })
