@@ -6,7 +6,7 @@ exports = async function(solutionName){
   const collection = context.services.get("mongodb-atlas").db("boom").collection("solutions");
   const collectionInstance = context.services.get("mongodb-atlas").db("boom").collection("assets");
   return collection.findOne({"name": solutionName})
-  
+
   .then(result => {
     if(result){
       console.log(result.scripts.length);
@@ -17,8 +17,8 @@ exports = async function(solutionName){
             console.log(i);
             userData += result.scripts[i].script;
             console.log(userData.length);
-          }  
-        } 
+          }
+        }
         finally {
           // this has to run after the loop is complete.
           const risultato = ec2.RunInstances({
@@ -30,20 +30,21 @@ exports = async function(solutionName){
             "KeyName": "dg-oregon",
             "InstanceType": result.environment.instanceType,
             //"TagSpecification": result.environment.tagSpecification,
-            "BlockDeviceMappings": result.environment.blockDeviceMappings 
-          
+            "BlockDeviceMappings": result.environment.blockDeviceMappings
+
           })
+          console.log(JSON.stringify(risultato));
           return risultato;
         }
-        
+
         return risultato;
 
       } else {
         return 'did not get a result (solution).';
       }
-        
+
     }
-      
+
   })
   .then(risultato => {
     console.log(JSON.stringify(risultato));
