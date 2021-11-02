@@ -1,10 +1,10 @@
 [
     {
-        "name": "boomAwsConnectEc2",
+        "name": "executeScripts",
         "private": false
     },
     {
-        "name": "executeScripts",
+        "name": "boomAwsConnectEc2",
         "private": false
     }
 ]

@@ -5,7 +5,7 @@ exports = async function(solutionName){
   const ec2 = context.services.get('connectAws').ec2("us-west-2");
   const collection = context.services.get("mongodb-atlas").db("boom").collection("solutions");
   const collectionInstance = context.services.get("mongodb-atlas").db("boom").collection("assets");
-  return collection.findOne({"name": solutionName.arguments[0]})
+  return collection.findOne({"name": solutionName})
   
   .then(result => {
     if(result){
