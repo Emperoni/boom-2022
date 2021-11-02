@@ -45,10 +45,10 @@ exports = async function(solutionName){
     }
       
   })
-  .then(risultato => {
-    collectionInstance.insertOne(risultato);
-    return risultato;
-  })
+  //.then(risultato => {
+  //  collectionInstance.insertOne(risultato);
+  //  return risultato;
+  //})
   .catch(err => console.error(`Failed to find document: ${err}`));
   //return solutionName;
 };
