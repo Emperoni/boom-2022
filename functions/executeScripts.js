@@ -16,7 +16,7 @@ exports = async function(solutionName){
           for( var i=0; i< result.scripts.length; i++){
             console.log(i);
             userData += result.scripts[i].script;
-            console.log(userData);
+            console.log(userData.length);
           }  
         } 
         finally {
@@ -45,10 +45,10 @@ exports = async function(solutionName){
     }
       
   })
-  //.then(risultato => {
-  //  collectionInstance.insertOne(risultato);
-  //  return risultato;
-  //})
+  .then(risultato => {
+    collectionInstance.insertOne(risultato);
+    return risultato;
+  })
   .catch(err => console.error(`Failed to find document: ${err}`));
   //return solutionName;
 };
