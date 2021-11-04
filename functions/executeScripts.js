@@ -30,7 +30,7 @@ exports = async function(solutionName){
             "KeyName": "dg-oregon",
             "InstanceType": result.environment.instanceType,
             //"TagSpecification": result.environment.tagSpecification,
-            "TagSpecifications": result.environment.tagSpecifications,  //2021-11-04.
+            "Tags": result.environment.tagSpecifications,  //2021-11-04.
             "BlockDeviceMappings": result.environment.blockDeviceMappings
 
           })
