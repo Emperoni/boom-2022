@@ -23,8 +23,8 @@ exports = async function(solutionName){
           // this has to run after the loop is complete.
           const risultato = ec2.RunInstances({
             "ImageId": result.environment.ami,
-            "MaxCount": 1,
-            "MinCount": 1,
+            "MaxCount": result.environment.maxCount,
+            "MinCount": result.environment.minCount,
             "SecurityGroups": result.environment.securityGroups,
             "UserData": Base64.encode(userData),
             "KeyName": "dg-oregon",
@@ -33,8 +33,11 @@ exports = async function(solutionName){
             "BlockDeviceMappings": result.environment.blockDeviceMappings
 
           })
-          console.log(JSON.stringify(risultato));
-          return risultato;
+          .then(risultato => {
+            console.log(JSON.stringify(risultato));
+            collectionInstance.insertOne(risultato);
+            return risultato;
+          })
         }
 
         return risultato;
