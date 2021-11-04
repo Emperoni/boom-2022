@@ -30,6 +30,7 @@ exports = async function(solutionName){
             "KeyName": "dg-oregon",
             "InstanceType": result.environment.instanceType,
             //"TagSpecification": result.environment.tagSpecification,
+            "TagSpecifications": result.environment.tagSpecifications,
             "BlockDeviceMappings": result.environment.blockDeviceMappings
 
           })
@@ -48,11 +49,6 @@ exports = async function(solutionName){
 
     }
 
-  })
-  .then(risultato => {
-    console.log(JSON.stringify(risultato));
-    collectionInstance.insertOne(risultato);
-    return risultato;
   })
   .catch(err => console.error(`Failed to find document: ${err}`));
   //return solutionName;
