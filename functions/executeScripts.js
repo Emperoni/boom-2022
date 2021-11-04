@@ -30,7 +30,7 @@ exports = async function(solutionName){
             "KeyName": "dg-oregon",
             "InstanceType": result.environment.instanceType,
             //"TagSpecification": result.environment.tagSpecification,
-            "Tag": result.environment.tagSpecifications,  //2021-11-04.
+            //"Tag": result.environment.tagSpecifications,  //2021-11-04. Tags are a separate call. https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/ec2-example-create-images.html 
             "BlockDeviceMappings": result.environment.blockDeviceMappings
 
           })
