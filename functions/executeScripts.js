@@ -44,7 +44,7 @@ exports = async function(solutionName){
         return 'did not get a result (solution).';
       }
     }
-    return risultato;
+    //return risultato;
   })
   .catch(err => console.error(`Failed to find document: ${err}`));
   //return solutionName;
