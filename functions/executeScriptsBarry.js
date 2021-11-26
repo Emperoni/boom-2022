@@ -100,40 +100,59 @@ exports = async function(solutionName){
       // THE AWS INSTANCE AND PASS THE STRING VARIABLE HOLDING THE SCRIPTS INTO THE AWS INSTANCE FOR EXECUTION.  THIS MEANS WE
       // MUST FIRST COLLATE THE SCRIPTS BEFORE CALLING THE AWS CREATION STEP.
       if(result.scripts && result.scripts.length > 0) {
-        var tuneablesScript ='';
+        // A SERIES OF SCRIPTS FOR EACH NODE IN THE REPLICA SET.
+        // THE SCOPE OF THE SCRIPT DETERMINES IF THE SCRIPT SHOULD BE APPLIED TO THE FIRST MEMBER OF THE REPLICA SET, THE LAST MEMBER
+        // OR ALL THE MEMBERS.
+        var tuneablesScripts = new Array(result.environment.maxCount);
+
         try {
-          for (var i=0; i< result.scripts.length; i++){
-            console.log(i);
-            tuneablesScript += result.scripts[i].script;
-            console.log(tuneablesScript.length);
+          for (var i = 0; i < result.scripts.length; i++){
+            // FIRST NODE GETS SCRIPTS WITH SCOPE "first"
+            if (result.scripts[i].scope == "first") {
+              tuneablesScripts[0] += result.scripts[i].script;
+            }
+
+            // ALL NODES GET THE SCRIPT WITH SCOPE "all"
+            if (result.scripts[i].scope == "all") {
+              for (var j = 0; j < result.environment.maxCount; j++) {
+                tuneablesScripts[j] += result.scripts[i].script;
+              }
+            }
+
+            // THE LAST NODE GETS SCRIPTS WITH SCOPE "last"
+            if (result.scripts[i].scope == "last") {
+              tuneablesScripts[result.environment.maxCount - 1] += result.scripts[i].script;
+            }
           }
         }
         finally {
-          // this has to run after the loop is complete.
-          ec2.RunInstances({
-            "ImageId": result.environment.ami,
-            "MaxCount": result.environment.maxCount,
-            "MinCount": result.environment.minCount,
-            "SecurityGroups": result.environment.securityGroups,
-            "UserData": Base64.encode(tuneablesScript),
-            "KeyName": "dg-oregon",
-            "InstanceType": result.environment.instanceType,
-            "TagSpecifications": result.environment.tagSpecifications,
-            "BlockDeviceMappings": result.environment.blockDeviceMappings
-          }).then(ec2RunInstancesResults => {
-            console.log("ec2RunInstancesResults: " + JSON.stringify(ec2RunInstancesResults));
-            const assetsCollection = context.services.get("mongodb-atlas").db("boom").collection("assets");
-            assetsCollection.insertOne(ec2RunInstancesResults);
+          // CREATE AWS INSTANCES - ONE AT A TIME. CAPTURE THE RESULTS SO THAT WE CAN INIT MONGODB STRUCTURES WITH HOST NAMES, ETC.
+          var instanceIds = [];
 
-            var instanceIds = [];
-            ec2RunInstancesResults.Instances.forEach(instance => {
-              instanceIds.push(instance.InstanceId)
-            });
+          for (var i = 0; i < result.environment.maxCount; i++) {
+            ec2.RunInstances({
+              "ImageId": result.environment.ami,
+              "MaxCount": 1,
+              "MinCount": 1,
+              "SecurityGroups": result.environment.securityGroups,
+              "UserData": Base64.encode(tuneablesScripts[i]),
+              "KeyName": "dg-oregon",
+              "InstanceType": result.environment.instanceType,
+              "TagSpecifications": result.environment.tagSpecifications,
+              "BlockDeviceMappings": result.environment.blockDeviceMappings
+            }).then(ec2RunInstancesResults => {
+              console.log("ec2RunInstancesResults: " + JSON.stringify(ec2RunInstancesResults));
+              const assetsCollection = context.services.get("mongodb-atlas").db("boom").collection("assets");
+              assetsCollection.insertOne(ec2RunInstancesResults);
+               
+              ec2RunInstancesResults.Instances.forEach(instance => {
+               instanceIds.push(instance.InstanceId)
+              });
 
-            console.log(instanceIds);
-
-            return instanceIds;
-          })
+              console.log(instanceIds);
+            })
+          }
+          return instanceIds;
         }
       } else {
         return 'No data found in database collection "solutions" where name = ' + solutionName + '.';
