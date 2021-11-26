@@ -55,7 +55,7 @@ exports = async function(solutionName){
 
             console.log(instanceIds);
 
-            return ec2RunInstancesResults;
+            return instanceIds;
           })
         }
       } else {
