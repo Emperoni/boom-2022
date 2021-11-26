@@ -151,7 +151,7 @@ exports = async function(solutionName){
                 instanceDetails.push( {instanceId: instance.InstanceId, privateDNSName: instance.PrivateDNSName } );
               });
 
-              console.log(instanceDetails);
+              console.log(JSON.stringify(instanceDetails));
             })
           }
           return instanceDetails;
