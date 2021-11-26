@@ -25,7 +25,7 @@ exports = async function(solutionName){
       if(result.scripts && result.scripts.length > 0) {
         var tuneablesScript ='';
         try {
-          for( var i=0; i< result.scripts.length; i++){
+          for (var i=0; i< result.scripts.length; i++){
             console.log(i);
             tuneablesScript += result.scripts[i].script;
             console.log(tuneablesScript.length);
@@ -47,6 +47,14 @@ exports = async function(solutionName){
             console.log("ec2RunInstancesResults: " + JSON.stringify(ec2RunInstancesResults));
             const assetsCollection = context.services.get("mongodb-atlas").db("boom").collection("assets");
             assetsCollection.insertOne(ec2RunInstancesResults);
+
+            var instanceIds = [];
+            ec2RunInstancesResults.Instances.forEach(instance => {
+              instanceIds.push(instance.InstanceId)
+            });
+
+            console.log(instanceIds);
+
             return ec2RunInstancesResults;
           })
         }
