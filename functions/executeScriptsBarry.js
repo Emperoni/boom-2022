@@ -92,8 +92,6 @@ exports = async function(solutionName){
   solutionsCollection.findOne({"name": solutionName}).then(result => {
     // VERIFY WE FOUND A RECORD IN THE SOLUTIONS COLLECTION
     if(result) {
-      console.log(result.scripts.length);
-
       // WHEN INSTALLING A MONGODB CLUSTER WE MUST FIRST CREATE THE AWS INSTANCE, THEN ONCE THE INSTANCE IS CREATED WE APPLY
       // OS TUNEABLES.  THESE TUNEABLES ARE IN THE DATABASE RECORD IN THE FIELD 'scripts' WHICH IS AN ORDERED ARRAY.  ITERATE
       // ALL THE SCRIPTS IN THE ARRAY AND CONCAT TO A STRING VARIABLE.  ONCE THIS IS COMPLETED WE WILL CALL THE AWS CLI TO CREATE
@@ -104,6 +102,9 @@ exports = async function(solutionName){
         // THE SCOPE OF THE SCRIPT DETERMINES IF THE SCRIPT SHOULD BE APPLIED TO THE FIRST MEMBER OF THE REPLICA SET, THE LAST MEMBER
         // OR ALL THE MEMBERS.
         var tuneablesScripts = new Array(result.environment.maxCount);
+        for (var i = 0; i < result.scripts.length; i++)
+          tuneablesScripts[i] = "";
+        }
 
         try {
           for (var i = 0; i < result.scripts.length; i++){
