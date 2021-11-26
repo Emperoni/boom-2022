@@ -127,9 +127,11 @@ exports = async function(solutionName){
         }
         finally {
           // CREATE AWS INSTANCES - ONE AT A TIME. CAPTURE THE RESULTS SO THAT WE CAN INIT MONGODB STRUCTURES WITH HOST NAMES, ETC.
-          var instanceIds = [];
+          var instanceDetails = [];
 
           for (var i = 0; i < result.environment.maxCount; i++) {
+            console.log(instanceDetails + tuneablesScripts[i]);
+
             ec2.RunInstances({
               "ImageId": result.environment.ami,
               "MaxCount": 1,
@@ -146,7 +148,7 @@ exports = async function(solutionName){
               assetsCollection.insertOne(ec2RunInstancesResults);
                
               ec2RunInstancesResults.Instances.forEach(instance => {
-               instanceIds.push(instance.InstanceId)
+               instanceIds.push( {instanceId: instance.InstanceId, privateDNSName: instance.PrivateDNSName } );
               });
 
               console.log(instanceIds);
