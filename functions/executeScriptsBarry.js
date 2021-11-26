@@ -39,6 +39,7 @@ exports = async function(solutionName){
             "UserData": Base64.encode(tuneablesScript),
             "KeyName": "dg-oregon",
             "InstanceType": result.environment.instanceType,
+            "TagSpecification": 'ResourceType=instance,Tags=[{Key=Name,  Value="barry"}, {Key=owner,Value="barron.anderson"},{Key=expire-on,Value="2021-12-31"}]',
             //"TagSpecification": result.environment.tagSpecification,
             //"Tag": result.environment.tagSpecifications,  //2021-11-04. Tags are a separate call. https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/ec2-example-create-images.html
             "BlockDeviceMappings": result.environment.blockDeviceMappings
