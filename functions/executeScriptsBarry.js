@@ -12,7 +12,7 @@ exports = async function(solutionName){
   const solutionsCollection = context.services.get("mongodb-atlas").db("boom").collection("solutions");
   
   // RUN THE AWS INSTANCE CREATION SCRIPT
-  return solutionsCollection.findOne({"name": solutionName}).then(result => {
+  solutionsCollection.findOne({"name": solutionName}).then(result => {
     // VERIFY WE FOUND A RECORD IN THE SOLUTIONS COLLECTION
     if(result) {
       console.log(result.scripts.length);
@@ -60,4 +60,6 @@ exports = async function(solutionName){
   }).catch(err => {
     console.error(`Failed to find document: ${err}`)
   });
+  
+  return "barry was successful"
 };
