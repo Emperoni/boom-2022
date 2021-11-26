@@ -148,7 +148,7 @@ exports = async function(solutionName){
               assetsCollection.insertOne(ec2RunInstancesResults);
                
               ec2RunInstancesResults.Instances.forEach(instance => {
-                instanceDetails.push( {instanceId: instance.InstanceId, privateDNSName: instance.PrivateDNSName } );
+                instanceDetails.push(instance);
               });
 
               console.log(JSON.stringify(instanceDetails));
