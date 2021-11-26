@@ -102,9 +102,11 @@ exports = async function(solutionName){
         // THE SCOPE OF THE SCRIPT DETERMINES IF THE SCRIPT SHOULD BE APPLIED TO THE FIRST MEMBER OF THE REPLICA SET, THE LAST MEMBER
         // OR ALL THE MEMBERS.
         var tuneablesScripts = new Array(result.environment.maxCount);
-        for (var i = 0; i < result.scripts.length; i++)
+        for (var i = 0; i < result.scripts.length; i++) {
           tuneablesScripts[i] = "";
         }
+
+        console.log(tuneablesScripts[0]);
 
         try {
           for (var i = 0; i < result.scripts.length; i++){
