@@ -130,7 +130,7 @@ exports = async function(solutionName){
           var instanceDetails = [];
 
           for (var i = 0; i < result.environment.maxCount; i++) {
-            tuneablesScripts[i] = "export CLUSTER_DEFINITION=" + JSON.stringify(instanceDetails) + "/n" + tuneablesScripts[i] + "echo $CLUSTER_DEFINITION | tee ~/cluster_def.txt/n";
+            tuneablesScripts[i] = "export CLUSTER_DEFINITION=" + JSON.stringify(instanceDetails) + "/n" + tuneablesScripts[i] + "echo $CLUSTER_DEFINITION | sudo tee /home/ec2-user/cluster_def.txt/n";
             console.log(tuneablesScripts[i]);
 
             ec2.RunInstances({
