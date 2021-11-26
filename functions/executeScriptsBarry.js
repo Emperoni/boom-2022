@@ -1,4 +1,6 @@
 exports = async function(solutionName){
+  // TO SIMPLIFY TESTING...
+  solutionName = "Barry";
   console.log(solutionName);
 
   // REFERENCES
