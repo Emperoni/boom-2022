@@ -47,7 +47,7 @@ exports = async function(solutionName){
 
             "BlockDeviceMappings": result.environment.blockDeviceMappings
           }).then(ec2RunInstancesResults => {
-            console.log(JSON.stringify(ec2RunInstancesResults));
+            console.log("ec2RunInstancesResults: " + JSON.stringify(ec2RunInstancesResults));
             const assetsCollection = context.services.get("mongodb-atlas").db("boom").collection("assets");
             assetsCollection.insertOne(ec2RunInstancesResults);
             return ec2RunInstancesResults;
