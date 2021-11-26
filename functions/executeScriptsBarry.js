@@ -1,6 +1,9 @@
 exports = async function(solutionName){
   console.log(solutionName);
 
+  // REFERENCES
+  // https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/ec2-example-creating-an-instance.html
+
   // DEPENDENCIES
   const Base64 = require("js-base64");
   const ec2 = context.services.get('connectAws').ec2("us-west-2");
@@ -39,9 +42,9 @@ exports = async function(solutionName){
             "UserData": Base64.encode(tuneablesScript),
             "KeyName": "dg-oregon",
             "InstanceType": result.environment.instanceType,
-            "TagSpecification": 'ResourceType=instance,Tags=[{Key=Name,  Value="barry"}, {Key=owner,Value="barron.anderson"},{Key=expire-on,Value="2021-12-31"}]',
-            //"TagSpecification": result.environment.tagSpecification,
-            //"Tag": result.environment.tagSpecifications,  //2021-11-04. Tags are a separate call. https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/ec2-example-create-images.html
+            "TagSpecifications": result.environment.tagSpecifications,
+            // works: "TagSpecifications": [ { ResourceType: "instance", Tags: [ { Key: "Name",  Value: "barry" }, { Key: "owner", Value: "barron.anderson" }, { Key: "expire-on", Value: "2021-12-31" } ] } ],
+
             "BlockDeviceMappings": result.environment.blockDeviceMappings
           }).then(ec2RunInstancesResults => {
             console.log(JSON.stringify(ec2RunInstancesResults));
