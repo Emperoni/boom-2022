@@ -148,13 +148,13 @@ exports = async function(solutionName){
               assetsCollection.insertOne(ec2RunInstancesResults);
                
               ec2RunInstancesResults.Instances.forEach(instance => {
-               instanceIds.push( {instanceId: instance.InstanceId, privateDNSName: instance.PrivateDNSName } );
+                instanceDetails.push( {instanceId: instance.InstanceId, privateDNSName: instance.PrivateDNSName } );
               });
 
-              console.log(instanceIds);
+              console.log(instanceDetails);
             })
           }
-          return instanceIds;
+          return instanceDetails;
         }
       } else {
         return 'No data found in database collection "solutions" where name = ' + solutionName + '.';
