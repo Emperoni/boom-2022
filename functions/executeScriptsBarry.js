@@ -130,7 +130,8 @@ exports = async function(solutionName){
           var instanceDetails = [];
 
           for (var i = 0; i < result.environment.maxCount; i++) {
-            console.log(instanceDetails + tuneablesScripts[i]);
+            tuneablesScripts[i] = "export CLUSTER_DEFINITION=" + JSON.stringify(instanceDetails) + "/n" + tuneablesScripts[i] + "echo $CLUSTER_DEFINITION | tee ~/cluster_def.txt/n";
+            console.log(tuneablesScripts[i]);
 
             ec2.RunInstances({
               "ImageId": result.environment.ami,
@@ -148,7 +149,7 @@ exports = async function(solutionName){
               assetsCollection.insertOne(ec2RunInstancesResults);
                
               ec2RunInstancesResults.Instances.forEach(instance => {
-                instanceDetails.push( {instanceId: instance.InstanceId, privateDnsName: instance.PrivateDnsName } );
+                instanceDetails.push( {node: i, instanceId: instance.InstanceId, privateDnsName: instance.PrivateDnsName } );
               });
 
               console.log(JSON.stringify(instanceDetails));
