@@ -23,7 +23,6 @@ exports = async function(solutionName){
       // THE AWS INSTANCE AND PASS THE STRING VARIABLE HOLDING THE SCRIPTS INTO THE AWS INSTANCE FOR EXECUTION.  THIS MEANS WE
       // MUST FIRST COLLATE THE SCRIPTS BEFORE CALLING THE AWS CREATION STEP.
       if(result.scripts && result.scripts.length > 0) {
-        var instanceId='';
         var tuneablesScript ='';
         try {
           for( var i=0; i< result.scripts.length; i++){
@@ -43,8 +42,6 @@ exports = async function(solutionName){
             "KeyName": "dg-oregon",
             "InstanceType": result.environment.instanceType,
             "TagSpecifications": result.environment.tagSpecifications,
-            // works: "TagSpecifications": [ { ResourceType: "instance", Tags: [ { Key: "Name",  Value: "barry" }, { Key: "owner", Value: "barron.anderson" }, { Key: "expire-on", Value: "2021-12-31" } ] } ],
-
             "BlockDeviceMappings": result.environment.blockDeviceMappings
           }).then(ec2RunInstancesResults => {
             console.log("ec2RunInstancesResults: " + JSON.stringify(ec2RunInstancesResults));
@@ -60,6 +57,6 @@ exports = async function(solutionName){
   }).catch(err => {
     console.error(`Failed to find document: ${err}`)
   });
-  
+
   return "barry was successful"
 };
