@@ -248,4 +248,13 @@ exports = async function(solutionName){
   }
 
   return "barry was successful"
+
+  // TO TEST:
+  // SSH INTO THE LAST NODE AND ISSUE THE FOLLOWING COMMANDS...
+
+  // readarray -t hostnames < /tmp/priorInstanceDetails.txt
+  // members=()
+  // for t in ${!hostnames[@]}; do members+=${hostnames[$t]}':27017,'; done
+
+  // mongo mongodb://$members/?replicaSet=appDB
 };
