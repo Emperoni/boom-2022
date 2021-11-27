@@ -241,11 +241,11 @@ exports = async function(solutionName){
           }
         });
         
-        runInstances(tuneablesScripts, environment, currentInstanceIndex + 1, maxInstanceIndex, priorInstanceDetails) ;
+        createAWSInstances(tuneablesScripts, environment, currentInstanceIndex + 1, maxInstanceIndex, priorInstanceDetails) ;
       });
       
     }
   }
-  
+
   return "barry was successful"
 };
