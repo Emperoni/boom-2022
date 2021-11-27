@@ -133,6 +133,7 @@ exports = async function(solutionName){
           var instanceDetails = [];
 
           for (var i = 0; i < result.environment.maxCount; i++) {
+            tuneablesScripts[i] = "#!/bin/bash -xe\nexec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1\nexport CLUSTER_DEFINITION=" + JSON.stringify(instanceDetails) + "/n" + tuneablesScripts[i]
             //tuneablesScripts[i] = "export CLUSTER_DEFINITION=" + JSON.stringify(instanceDetails) + "/n" + tuneablesScripts[i] + "echo $CLUSTER_DEFINITION | sudo tee /home/ec2-user/cluster_def.txt/n";
             console.log(tuneablesScripts[i]);
 
