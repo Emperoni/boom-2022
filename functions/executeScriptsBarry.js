@@ -5,10 +5,12 @@ exports = async function(solutionName){
 
   // REFERENCES
   // https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/ec2-example-creating-an-instance.html
+  // https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-log-user-data/
 
 
   // EXAMPLE DOCUMENT TO TEST WITH:
 
+  // db.solutions.replaceOne({_id: ObjectId("61a1296eb91c087ac062cea3")}, 
   // {
   //   "_id": ObjectId("61a1296eb91c087ac062cea3"),
   //   "name": "Barry",
@@ -16,19 +18,88 @@ exports = async function(solutionName){
   //   "isComplete": false,
   //   "scripts": [
   //     {
+  //       "step": 0,
+  //       "scope": "all",
+  //       "name": "shell setup",
+  //       "script": "#!/bin/bash -xe \n "
+  //     },
+  //     {
   //       "step": 1,
-  //       "name": "thp",
-  //       "script": "#!/bin/bash\nyum update -y\n\nsudo touch /etc/systemd/system/disable-transparent-huge-pages.service\nsudo tee /etc/systemd/system/disable-transparent-huge-pages.service << 'EOF'\n[Unit]\nDescription=Disable Transparent Huge Pages (THP)\nDefaultDependencies=no\nAfter=sysinit.target local-fs.target\nBefore=mongod.service\n\n[Service]\nType=oneshot\nExecStart=/bin/sh -c 'echo never | tee /sys/kernel/mm/transparent_hugepage/enabled > /dev/null'\n\n[Install]\nWantedBy=basic.target\nEOF\n\nsudo systemctl daemon-reload\n\nsudo systemctl start disable-transparent-huge-pages\n"
+  //       "scope": "all",
+  //       "name": "Log all user data activity",
+  //       "script": "exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1 \n "
   //     },
   //     {
   //       "step": 2,
-  //       "name": "install mdb",
-  //       "script": "cd /tmp\n\nwget https://repo.mongodb.com/yum/amazon/2/mongodb-enterprise/5.0/x86_64/RPMS/mongodb-enterprise-server-5.0.3-1.amzn2.x86_64.rpm\ncurl -OL https://downloads.mongodb.com/compass/mongodb-mongosh-1.1.1.el7.x86_64.rpm\n\nsudo yum install cyrus-sasl cyrus-sasl-gssapi cyrus-sasl-plain krb5-libs libcurl net-snmp openldap openssl xz-libs jq -y\n\nsudo rpm -ivh /tmp/mongodb-enterprise-server-5.0.3-1.amzn2.x86_64.rpm\n\nsudo mkdir -p /data/shard0\nsudo mkdir -p /data/appdb/\nsudo mkdir -p /data/bckdb\nsudo mkdir -p /data/keys/\nsudo chown -R mongod:mongod /data\n\nsudo chown mongod:mongod /data/shard0\n\nsudo rm -Rf /etc/mongod.conf\n\nsudo tee /etc/mongod.conf << 'EOF'\n# /etc/mongod.conf\nsystemLog:\n  destination: file\n  logAppend: true\n  logRotate: reopen\n  path: /var/log/mongodb/mongod.log\nstorage:\n  dbPath: /data/shard0\n  journal:\n    enabled: true\nprocessManagement:\n  fork: true  # fork and run in background\n  pidFilePath: /var/run/mongodb/mongod.pid\nnet:\n  port: 27017\n  bindIp: 0.0.0.0\nEOF\nsudo systemctl enable mongod\nsudo systemctl start mongod"
+  //       "scope": "all",
+  //       "name": "yum update",
+  //       "script": "yum update -y \n "
   //     },
   //     {
-  //       "step": "3",
-  //       "name": "create /etc/mongod.con",
-  //       "script": "sudo rm -rf /etc/mongod.conf\n\ncat > /etc/mongod.conf << EOL\nsystemLog:\n  destination: file\n  logAppend: true\n  logRotate: reopen\n  path: /var/log/mongodb/mongod.log\nstorage:\n  dbPath: /data/appdb\n  journal:\n    enabled: true\n  wiredTiger:\n    engineConfig:\n      cacheSizeGB: 0.5\nprocessManagement:\n  fork: true  # fork and run in background\n  pidFilePath: /var/run/mongodb/mongod.pid\nnet:\n  port: 27017\n  bindIp: 0.0.0.0\nreplication:\n  replSetName: appDB\nEOL\n\nsudo systemctl enable mongod\nsudo systemctl stop mongod\nsudo systemctl start mongod"
+  //       "step": 3,
+  //       "scope": "all",
+  //       "name": "thp",
+  //       "script": "sudo touch /etc/systemd/system/disable-transparent-huge-pages.service\nsudo tee /etc/systemd/system/disable-transparent-huge-pages.service << 'EOF'\n[Unit]\nDescription=Disable Transparent Huge Pages (THP)\nDefaultDependencies=no\nAfter=sysinit.target local-fs.target\nBefore=mongod.service\n\n[Service]\nType=oneshot\nExecStart=/bin/sh -c 'echo never | tee /sys/kernel/mm/transparent_hugepage/enabled > /dev/null'\n\n[Install]\nWantedBy=basic.target\nEOF\n\nsudo systemctl daemon-reload\n\nsudo systemctl start disable-transparent-huge-pages                                                          \n"
+  //     },
+  //     {
+  //       "step": 4,
+  //       "scope": "all",
+  //       "name": "install mdb",
+  //       "script": "echo '[mongodb-enterprise-5.0]\nname=MongoDB Enterprise Repository\nbaseurl=https://repo.mongodb.com/yum/amazon/2/mongodb-enterprise/5.0/$basearch/\ngpgcheck=1\nenabled=1\ngpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc' | sudo tee /etc/yum.repos.d/mongodb-enterprise-5.0.repo\nsudo yum -y install mongodb-enterprise\n"
+  //     },
+  //     {
+  //       "step": 5,
+  //       "scope": "all",
+  //       "name": "create database folders and assign permissions",
+  //       "script": "sudo mkdir -p /data/appdb\nsudo chown mongod:mongod /data/appdb\n"
+  //     },
+  //     {
+  //       "step": 6,
+  //       "scope": "all",
+  //       "name": "create /etc/mongod.conf",
+  //       "script": "sudo rm -rf /etc/mongod.conf\n\ncat > /etc/mongod.conf << EOL\nsystemLog:\n  destination: file\n  logAppend: true\n  logRotate: reopen\n  path: /var/log/mongodb/mongod.log\nstorage:\n  dbPath: /data/appdb\n  journal:\n    enabled: true\n  wiredTiger:\n    engineConfig:\n      cacheSizeGB: 0.5\nprocessManagement:\n  fork: true\n  pidFilePath: /var/run/mongodb/mongod.pid\nnet:\n  port: 27017\n  bindIp: 0.0.0.0\nreplication:\n  replSetName: appDB\nEOL\n"
+  //     },
+  //     {
+  //       "step": 7,
+  //       "scope": "all",
+  //       "name": "start database",
+  //       "script": "sudo systemctl enable mongod\nsudo systemctl stop mongod\nsudo systemctl start mongod\n"
+  //     },
+  //     {
+  //       "step": 8,
+  //       "scope": "last",
+  //       "name": "collate hostnames to prep for replicaset init",
+  //       "script": "echo $HOSTNAME | tee -a /tmp/priorInstanceDetails.txt \n"
+  //     },
+  //     {
+  //       "step": 8,
+  //       "scope": "last",
+  //       "name": "collate hostnames to prep for replicaset init pt 2",
+  //       "script": "readarray -t hostnames < /tmp/priorInstanceDetails.txt \n"
+  //     },
+  //     {
+  //       "step": 8,
+  //       "scope": "last",
+  //       "name": "collate hostnames to prep for replicaset init pt 3",
+  //       "script": "members=() \n for t in ${!hostnames[@]}; do members+='{_id: '$t', host: \"'${hostnames[$t]}':27017\"},'; done \n"
+  //     },
+  //     {
+  //       "step": 9,
+  //       "scope": "last",
+  //       "name": "create replica set init command",
+  //       "script": "rsInitCommand='rs.initiate({_id: \"appDB\", version: 1, members: ['$members']})' \n"
+  //     },
+  //     {
+  //       "step": "9x",
+  //       "scope": "last",
+  //       "name": "create replica set init command",
+  //       "script": "echo $rsInitCommand | sudo tee /tmp/initCmd.txt \n"
+  //     },
+  //     {
+  //       "step": 10,
+  //       "scope": "last",
+  //       "name": "initialize replica set",
+  //       "script": "mongo --eval \"$rsInitCommand\" \n"
   //     }
   //   ],
   //   "environment": {
@@ -79,6 +150,7 @@ exports = async function(solutionName){
   //     ]
   //   }
   // }
+  // )
 
 
   // DEPENDENCIES
@@ -106,8 +178,6 @@ exports = async function(solutionName){
           tuneablesScripts[i] = "";
         }
 
-        console.log(tuneablesScripts[0]);
-
         try {
           for (var i = 0; i < result.scripts.length; i++){
             // FIRST NODE GETS SCRIPTS WITH SCOPE "first"
@@ -129,37 +199,8 @@ exports = async function(solutionName){
           }
         }
         finally {
-          // CREATE AWS INSTANCES - ONE AT A TIME. CAPTURE THE RESULTS SO THAT WE CAN INIT MONGODB STRUCTURES WITH HOST NAMES, ETC.
-          var instanceDetails = [];
-
-          for (var i = 0; i < result.environment.maxCount; i++) {
-            tuneablesScripts[i] = "#!/bin/bash -xe\nexec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1\nexport CLUSTER_DEFINITION=" + JSON.stringify(instanceDetails) + "/n" + tuneablesScripts[i]
-            //tuneablesScripts[i] = "export CLUSTER_DEFINITION=" + JSON.stringify(instanceDetails) + "/n" + tuneablesScripts[i] + "echo $CLUSTER_DEFINITION | sudo tee /home/ec2-user/cluster_def.txt/n";
-            console.log(tuneablesScripts[i]);
-
-            ec2.RunInstances({
-              "ImageId": result.environment.ami,
-              "MaxCount": 1,
-              "MinCount": 1,
-              "SecurityGroups": result.environment.securityGroups,
-              "UserData": Base64.encode(tuneablesScripts[i]),
-              "KeyName": "dg-oregon",
-              "InstanceType": result.environment.instanceType,
-              "TagSpecifications": result.environment.tagSpecifications,
-              "BlockDeviceMappings": result.environment.blockDeviceMappings
-            }).then(ec2RunInstancesResults => {
-              console.log("ec2RunInstancesResults: " + JSON.stringify(ec2RunInstancesResults));
-              const assetsCollection = context.services.get("mongodb-atlas").db("boom").collection("assets");
-              assetsCollection.insertOne(ec2RunInstancesResults);
-               
-              ec2RunInstancesResults.Instances.forEach(instance => {
-                instanceDetails.push( {node: i, instanceId: instance.InstanceId, privateDnsName: instance.PrivateDnsName } );
-              });
-
-              console.log(JSON.stringify(instanceDetails));
-            })
-          }
-          return instanceDetails;
+          var instanceDetails = "";
+          createAWSInstances(tuneablesScripts, result.environment, 0, result.environment.maxCount, instanceDetails);
         }
       } else {
         return 'No data found in database collection "solutions" where name = ' + solutionName + '.';
@@ -169,5 +210,42 @@ exports = async function(solutionName){
     console.error(`Failed to find document: ${err}`)
   });
 
+  function createAWSInstances(tuneablesScripts, environment, currentInstanceIndex, maxInstanceIndex, priorInstanceDetails) {
+    if (currentInstanceIndex < maxInstanceIndex) {
+      // FOR DEBUGGING PURPOSES ADD A LOG FILE THAT KEEPS TRACK OF WHAT WAS PASSED IN user-data.
+      // TO USE THIS, SSH INTO THE LAST NODE OF THE REPLICA SET AND RUN `tail -f /var/log/user-data.log`
+      tuneablesScripts[currentInstanceIndex] = "#!/bin/bash -xe \n exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1 \n echo '" + priorInstanceDetails + "' | tee /tmp/priorInstanceDetails.txt \n " + tuneablesScripts[currentInstanceIndex];
+      
+      console.log(currentInstanceIndex);
+      console.log(tuneablesScripts[currentInstanceIndex]);
+      console.log(priorInstanceDetails);
+
+      ec2.RunInstances({
+        "ImageId": environment.ami,
+        "MaxCount": 1,
+        "MinCount": 1,
+        "SecurityGroups": environment.securityGroups,
+        "UserData": Base64.encode(tuneablesScripts[currentInstanceIndex]),
+        "KeyName": "dg-oregon",
+        "InstanceType": environment.instanceType,
+        "TagSpecifications": environment.tagSpecifications,
+        "BlockDeviceMappings": environment.blockDeviceMappings
+      }).then(results => {
+        results.Instances.forEach(instance => {
+          if (priorInstanceDetails == "") {
+            priorInstanceDetails = instance.PrivateDnsName;
+          }
+          else
+          {
+            priorInstanceDetails = priorInstanceDetails + "\n" + instance.PrivateDnsName;
+          }
+        });
+        
+        runInstances(tuneablesScripts, environment, currentInstanceIndex + 1, maxInstanceIndex, priorInstanceDetails) ;
+      });
+      
+    }
+  }
+  
   return "barry was successful"
 };
