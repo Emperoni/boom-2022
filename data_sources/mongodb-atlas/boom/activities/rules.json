@@ -17,8 +17,7 @@
         {
             "name": "non-owner",
             "apply_when": {},
-            "read": true,
-            "write": false,
+            "write": true,
             "insert": false,
             "delete": false,
             "search": true,
