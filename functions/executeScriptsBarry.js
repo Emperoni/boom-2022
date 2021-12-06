@@ -72,31 +72,37 @@ exports = async function(solutionName){
   //       "script": "echo $HOSTNAME | tee -a /tmp/priorInstanceDetails.txt \n"
   //     },
   //     {
-  //       "step": 8,
+  //       "step": 9,
   //       "scope": "last",
   //       "name": "collate hostnames to prep for replicaset init pt 2",
   //       "script": "readarray -t hostnames < /tmp/priorInstanceDetails.txt \n"
   //     },
   //     {
-  //       "step": 8,
+  //       "step": 10,
   //       "scope": "last",
   //       "name": "collate hostnames to prep for replicaset init pt 3",
   //       "script": "members=() \n for t in ${!hostnames[@]}; do members+='{_id: '$t', host: \"'${hostnames[$t]}':27017\"},'; done \n"
   //     },
   //     {
-  //       "step": 9,
+  //       "step": 11,
   //       "scope": "last",
   //       "name": "create replica set init command",
   //       "script": "rsInitCommand='rs.initiate({_id: \"appDB\", version: 1, members: ['$members']})' \n"
   //     },
   //     {
-  //       "step": "9x",
+  //       "step": 12,
+  //       "scope": "last",
+  //       "name": "give sibling hosts time to spin up prior to calling init",
+  //       "script": "sleep(20) \n"
+  //     },
+  //     {
+  //       "step": "13",
   //       "scope": "last",
   //       "name": "create replica set init command",
   //       "script": "echo $rsInitCommand | sudo tee /tmp/initCmd.txt \n"
   //     },
   //     {
-  //       "step": 10,
+  //       "step": 14,
   //       "scope": "last",
   //       "name": "initialize replica set",
   //       "script": "mongo --eval \"$rsInitCommand\" \n"
