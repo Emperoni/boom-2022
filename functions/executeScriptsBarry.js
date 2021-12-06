@@ -86,23 +86,17 @@ exports = async function(solutionName){
   //     {
   //       "step": 11,
   //       "scope": "last",
-  //       "name": "create replica set init command",
-  //       "script": "rsInitCommand='rs.initiate({_id: \"appDB\", version: 1, members: ['$members']})' \n"
+  //       "name": "create replica set init command.  Include a 20 second sleep delay to ensure sibling nodes have ample time to start up and be available.",
+  //       "script": "rsInitCommand='sleep(20000); rs.initiate({_id: \"appDB\", version: 1, members: ['$members']});' \n"
   //     },
   //     {
-  //       "step": 12,
-  //       "scope": "last",
-  //       "name": "give sibling hosts time to spin up prior to calling init",
-  //       "script": "sleep(20) \n"
-  //     },
-  //     {
-  //       "step": "13",
+  //       "step": "12",
   //       "scope": "last",
   //       "name": "create replica set init command",
   //       "script": "echo $rsInitCommand | sudo tee /tmp/initCmd.txt \n"
   //     },
   //     {
-  //       "step": 14,
+  //       "step": 13,
   //       "scope": "last",
   //       "name": "initialize replica set",
   //       "script": "mongo --eval \"$rsInitCommand\" \n"
@@ -238,6 +232,8 @@ exports = async function(solutionName){
         "BlockDeviceMappings": environment.blockDeviceMappings
       }).then(results => {
         results.Instances.forEach(instance => {
+          console.log("Created EC2 instance: " + instance.PrivateDnsName);
+
           if (priorInstanceDetails == "") {
             priorInstanceDetails = instance.PrivateDnsName;
           }
