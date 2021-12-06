@@ -6,5 +6,9 @@
     {
         "name": "executeScripts",
         "private": false
+    },
+    {
+        "name": "executeScriptsBarry",
+        "private": false
     }
 ]
