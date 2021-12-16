@@ -1,6 +1,7 @@
 exports = async function(solutionName){
   // TO SIMPLIFY TESTING...
-  solutionName = "Barry";
+  solutionName = "UBS Redhat 8 Ops Manager 4.4";
+  // was 'Barry'
   console.log(solutionName);
 
   // REFERENCES
