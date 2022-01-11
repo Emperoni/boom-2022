@@ -1,5 +1,9 @@
 [
     {
+        "name": "executeScriptsBarry",
+        "private": false
+    },
+    {
         "name": "boomAwsConnectEc2",
         "private": false
     },
