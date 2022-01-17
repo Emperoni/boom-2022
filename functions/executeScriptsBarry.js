@@ -233,7 +233,7 @@ exports = async function(solutionName){
         "BlockDeviceMappings": environment.blockDeviceMappings
       }).then(results => {
         /* added by Daniele to keep track of results */
-        solutionsCollection.updateOne({"name": solutionName},{"$set":{"assets": results}});
+        solutionsCollection.updateOne({"name": solutionName},{"$push":{"assets": results}});
         results.Instances.forEach(instance => {
           console.log("Created EC2 instance: " + instance.PrivateDnsName);
 
