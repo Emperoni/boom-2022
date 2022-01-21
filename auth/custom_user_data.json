@@ -2,6 +2,6 @@
     "enabled": true,
     "mongo_service_name": "mongodb-atlas",
     "database_name": "boom",
-    "collection_name": "users",
+    "collection_name": "customData",
     "user_id_field": "userId"
 }
