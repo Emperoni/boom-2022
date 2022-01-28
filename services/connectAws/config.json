@@ -2,10 +2,10 @@
     "name": "connectAws",
     "type": "aws",
     "config": {
-        "accessKeyId": "AKIAU2LKKDAMXAR4MXSP"
+        "accessKeyId": "AKIAU2LKKDAM73HXJBU7"
     },
     "secret_config": {
-        "secretAccessKey": "awsSecretAccessKey"
+        "secretAccessKey": "awsSecretAccessKey2"
     },
     "version": 1
 }
