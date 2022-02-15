@@ -1,6 +1,6 @@
 exports = async function(solutionName){
   // TO SIMPLIFY TESTING...
-  solutionName = "UBS Redhat 8 Ops Manager 4.4";
+  solutionName = "DSV Redhat 8 Hashicorp Vault";
   // was 'Barry'
   console.log(solutionName);
 
