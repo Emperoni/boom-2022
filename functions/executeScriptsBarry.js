@@ -1,6 +1,6 @@
 exports = async function(solutionName){
   // TO SIMPLIFY TESTING...
-  solutionName = "DSV Redhat 8 Hashicorp Vault";
+  solutionName = solutionName || "DSV Redhat 8 Hashicorp Vault";
   // was 'Barry'
   console.log(solutionName);
 
