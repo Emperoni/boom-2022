@@ -10,5 +10,10 @@
     {
         "name": "executeScriptsBarry",
         "private": false
+    },
+    {
+        "name": "searchExperiences",
+        "private": false,
+        "run_as_system": true
     }
 ]
