@@ -21,9 +21,4 @@ exports = function(searchText){
       }
     }
   }])
-  .then(results =>{
-    if(results){
-      console.log(results[0].wisdom)
-    }
-  })
 };
