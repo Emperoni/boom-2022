@@ -79,7 +79,7 @@
               let args = [];
               console.log(...args);
 
-              let result = user.callFunction(functionName, ...args);
+              let result = await user.callFunction(functionName, ...args);
               console.log(result);
               console.log(result[0].PromiseResult)
 
