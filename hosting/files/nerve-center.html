@@ -73,7 +73,27 @@
         async function ciao(){
 
           console.log("ciao");
+          if(user && user.id){
+            try {
+              let functionName = "getAssets";
+              let args = [];
+              console.log(...args);
+
+              let result = user.callFunction(functionName, ...args);
+              console.log(result);
+
+            } catch(error){
+              console.error(error);
+              geolocationDiv.innerHTML = error;
+            }
+          } else if(!globalUser) {
+            console.log('global user is not even defined.', lat,lon, oldLat,oldLat);
+          } else {
+            console.log('id is NOT defined in global user.', lat,lon, oldLat,oldLat);
+          }
         }
+
+
       })
 
       // 61812a4dc318700cb7e3753a
