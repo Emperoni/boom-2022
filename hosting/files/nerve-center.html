@@ -83,10 +83,11 @@
               let result = await user.callFunction(functionName, ...args);
               console.log(result);
               result.forEach(element => {
-                console.log(element);
-              }
-
-              )
+                console.log(element.name);
+                var option = document.createElement("option");
+                option.text = element.name
+                assetsList.add(option)
+              })
 
 
             } catch(error){
