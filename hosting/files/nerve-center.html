@@ -41,7 +41,7 @@
   <body>
     <div class="content">
       <h1>Nerve Center</h1>
-      <select id="asset">
+      <select id="assetsList">
         <option>Ciao</option>
       </select>
 
@@ -69,6 +69,7 @@
       loginEmailPassword('daniele.graziani@mongodb.com', 'Mpr$2bobb').then(user => {
         console.log("Successfully logged in!", user)
         document.getElementById('btnDeploy').onclick = ciao;
+        let assetsList = document.getElementById('assetsList');
 
         async function ciao(){
 
@@ -81,7 +82,12 @@
 
               let result = await user.callFunction(functionName, ...args);
               console.log(result);
-              console.log(result[0].PromiseResult)
+              result.forEach(element => {
+                console.log(element);
+              }
+
+              )
+
 
             } catch(error){
               console.error(error);
