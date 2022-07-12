@@ -1,9 +1,5 @@
 [
     {
-        "name": "boomAwsConnectEc2",
-        "private": false
-    },
-    {
         "name": "executeScripts",
         "private": false
     },
@@ -22,6 +18,10 @@
     },
     {
         "name": "authenticateAPIUser",
+        "private": false
+    },
+    {
+        "name": "boomAwsConnectEc2",
         "private": false
     }
 ]
