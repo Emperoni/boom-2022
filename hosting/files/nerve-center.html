@@ -70,10 +70,11 @@
         console.log("Successfully logged in!", user)
         document.getElementById('btnDeploy').onclick = ciao;
         let assetsList = document.getElementById('assetsList');
+        loadData();
 
-        async function ciao(){
+        async function loadData(){
 
-          console.log("ciao");
+          console.log("ciao - load data.");
           if(user && user.id){
             try {
               let functionName = "getAssets";
