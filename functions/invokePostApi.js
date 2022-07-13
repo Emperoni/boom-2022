@@ -2,12 +2,12 @@ exports = async function(assetId, apiEndpointId) {
   
   const args = ["62ce5d4c74a9284d109699ba"];
   const endpoint = await context.functions.execute("getApiEndpoints", ...args);
-  console.log(endpoint);
+  console.log(JSON.stringify(endpoint));
   const response = await context.http.post({
-    "scheme": endpoint.scheme,
-    "host": endpoint.host,
-    "path": endpoint.path,
-    "headers": endpoint.headers,
+    "scheme": "https",
+    "host": "realm.mongodb.com",
+    "path": "endpoint.path",
+    "headers": {"Content-Type": [ "application/json" ], "Accept": [ "application/json" ]},
     "body": {"username": "kwgbalst", "apiKey": "fa8609bc-39ab-4bd4-8af5-4493daab09ba"},
     "encodeBodyAsJSON": true
   })
