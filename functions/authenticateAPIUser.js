@@ -4,6 +4,7 @@ exports = async function() {
     "host": "realm.mongodb.com",
     "path": "/api/admin/v3.0/auth/providers/mongodb-cloud/login",
     "headers": {"Content-Type": [ "application/json" ], "Accept": [ "application/json" ]},
+    "body": {"username": "kwgbalst", "apiKey": "fa8609bc-39ab-4bd4-8af5-4493daab09ba"},
     "digestAuth": true,
     "username": "kwgbalst",
     "password": "fa8609bc-39ab-4bd4-8af5-4493daab09ba",
@@ -13,8 +14,9 @@ exports = async function() {
   return EJSON.parse(response.body.text());
   /*
     "body": ['kwgbalst', 'fa8609bc-39ab-4bd4-8af5-4493daab09ba'],
+    "body": {"kwgbalst": "fa8609bc-39ab-4bd4-8af5-4493daab09ba"},
 
-    "body": [{'username': 'kwgbalst', 'password': 'fa8609bc-39ab-4bd4-8af5-4493daab09ba'}],
+    "body": [{'username': 'kwgbalst', 'apiKey': 'fa8609bc-39ab-4bd4-8af5-4493daab09ba'}],
     "digestAuth": true,
     "username": "kwgbalst",
     "password": "fa8609bc-39ab-4bd4-8af5-4493daab09ba",
