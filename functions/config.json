@@ -1,17 +1,5 @@
 [
     {
-        "name": "authenticateAPIUser",
-        "private": false
-    },
-    {
-        "name": "boomAwsConnectEc2",
-        "private": false
-    },
-    {
-        "name": "executeScripts",
-        "private": false
-    },
-    {
         "name": "executeScriptsBarry",
         "private": false
     },
@@ -23,5 +11,17 @@
         "name": "searchExperiences",
         "private": false,
         "run_as_system": true
+    },
+    {
+        "name": "authenticateAPIUser",
+        "private": false
+    },
+    {
+        "name": "boomAwsConnectEc2",
+        "private": false
+    },
+    {
+        "name": "executeScripts",
+        "private": false
     }
 ]
