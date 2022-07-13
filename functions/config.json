@@ -1,5 +1,9 @@
 [
     {
+        "name": "authenticateAPIUser",
+        "private": false
+    },
+    {
         "name": "boomAwsConnectEc2",
         "private": false
     },
@@ -25,7 +29,7 @@
         "run_as_system": true
     },
     {
-        "name": "authenticateAPIUser",
+        "name": "getApiEndpoints",
         "private": false
     }
 ]
