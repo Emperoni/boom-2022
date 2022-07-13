@@ -1,5 +1,9 @@
 [
     {
+        "name": "executeScripts",
+        "private": false
+    },
+    {
         "name": "executeScriptsBarry",
         "private": false
     },
@@ -13,11 +17,11 @@
         "run_as_system": true
     },
     {
-        "name": "boomAwsConnectEc2",
+        "name": "authenticateAPIUser",
         "private": false
     },
     {
-        "name": "executeScripts",
+        "name": "boomAwsConnectEc2",
         "private": false
     }
 ]
