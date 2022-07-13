@@ -74,7 +74,6 @@
 
         async function loadData(){
 
-          console.log("ciao - load data.");
           if(user && user.id){
             try {
               let functionName = "getAssets";
@@ -86,7 +85,11 @@
               result.forEach(element => {
                 console.log(element.name);
                 var option = document.createElement("option");
-                option.text = element.name
+                if(element.projectId){
+                  option.text = element.name + " (" + element.projectId + ")";
+                } else {
+                  option.text = element.name;
+                }
                 assetsList.add(option)
               })
 
