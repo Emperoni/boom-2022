@@ -1,7 +1,7 @@
 exports = async function(assetId, apiEndpointId) {
   
   const args = ["62ce5d4c74a9284d109699ba"];
-  const endpoint = await context.functions.execute("getApiEndpoints", ...args);
+  let endpoint = await context.functions.execute("getApiEndpoints", ...args);
   console.log(JSON.stringify(endpoint));
   const response = await context.http.post({
     "scheme": "https",
